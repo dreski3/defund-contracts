@@ -115,7 +115,7 @@ contract DeFund is Ownable, ERC20 {
     ////////////////////////////////////////////////////////////////////////////
     // Public functions
 
-    function setEntrance() public {
+    function setEntrance() public onlyOwner {
         entrance = !entrance;
     }
 
@@ -171,7 +171,7 @@ contract DeFund is Ownable, ERC20 {
     }
 
     // Returns a list of the right amounts that should be swapped for the portfolio
-    function rebalanceTokens(address payable _tokenInAddress, uint[] memory _valuesToSwap) public returns(uint[] memory) {
+    function rebalanceTokens(address payable _tokenInAddress, uint[] memory _valuesToSwap) internal returns(uint[] memory) {
         uint[] memory valuesToSwap;
         valuesToSwap = _valuesToSwap;
 
@@ -294,7 +294,8 @@ contract DeFund is Ownable, ERC20 {
         return(_inToken.balanceOf(address(this)));
     }
 
-    function transferToken(address recipient, uint amount, address _tokenAddress) public notShares(_tokenAddress) returns(bool) {
+    // Utils function for transferring ERC20 tokens. DeFund native token is not transferrable
+    function transferToken(address recipient, uint amount, address _tokenAddress) internal notShares(_tokenAddress) returns(bool) {
         IERC20 _inToken = IERC20(_tokenAddress);
         return(_inToken.transfer(recipient, amount));
     }
