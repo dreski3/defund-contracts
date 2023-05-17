@@ -9,14 +9,6 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 contract DeFundFactory {
     address payable[] public deployedDeFunds;
 
-    uint numDeFund = 0;
-    struct DeFundInfo {
-        string Name;
-        uint256 Aum;
-        uint256 noOfMembers;
-        address manager;
-    }
-
     function createDeFund(string memory name_, string memory description_) public {
         uint fee_ = 1;
 
